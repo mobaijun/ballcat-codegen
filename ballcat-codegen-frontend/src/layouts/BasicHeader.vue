@@ -4,28 +4,32 @@
       <div class="ballcat-top-nav-header-main-left">
         <div class="ballcat-top-nav-header-logo">
           <a>
-            <img src="../assets/logo.png" alt="logo" />
-            <h1>Ballcat Generator</h1>
+            <img src="../assets/logo.png" alt="logo"/>
+            <h1>April Generator</h1>
           </a>
         </div>
       </div>
       <div :style="{ flex: 1 }" class="ballcat-top-nav-header-menu">
-        <router-menu mode="horizontal" />
+        <router-menu mode="horizontal"/>
       </div>
 
       <div class="ballcat-top-nav-header-right-content" style="padding-right: 6px">
         <a-space class="right" :size="0">
-          <span class="action" @click="jumpToDoc">
-            <QuestionCircleOutlined />
-            <span>文档</span>
+          <span class="action" @click="jumpToHome">
+            <QuestionCircleOutlined/>
+            <span>主页</span>
           </span>
           <span class="action" @click="jumpToGithub">
-            <GithubOutlined />
+            <GithubOutlined/>
             <span>Github</span>
           </span>
           <span class="action" @click="jumpToGitee">
-            <img src="../assets/gitee.svg" alt="gitee" />
+            <img src="../assets/gitee.svg" alt="gitee"/>
             <span>Gitee</span>
+          </span>
+          <span class="action" @click="jumpToDocker">
+            <img src="../assets/docker.svg" alt="docker" style="width: 20px; height: 20px;"/>
+          <span>Docker</span>
           </span>
         </a-space>
       </div>
@@ -35,22 +39,25 @@
 
 <script setup lang="ts">
 import RouterMenu from '@/components/menu'
-import { GithubOutlined, QuestionCircleOutlined } from '@ant-design/icons-vue'
+import {GithubOutlined, QuestionCircleOutlined} from '@ant-design/icons-vue'
 
 defineProps<{
   theme: 'dark' | 'light'
 }>()
 
 const jumpToGithub = () => {
-  window.open('https://github.com/ballcat-projects/ballcat-codegen')
+  window.open('https://github.com/mobaijun')
 }
 
 const jumpToGitee = () => {
-  window.open('https://gitee.com/ballcat-projects/ballcat-codegen')
+  window.open('https://gitee.com/april-projects')
 }
 
-const jumpToDoc = () => {
-  window.open('http://www.ballcat.cn/codegen/#%E5%89%8D%E8%A8%80')
+const jumpToHome = () => {
+  window.open('https://docs.mobaijun.com/')
+}
+const jumpToDocker = () => {
+  window.open('https://hub.docker.com/r/mobaijun/generator')
 }
 </script>
 

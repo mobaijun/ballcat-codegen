@@ -1,11 +1,15 @@
 # syntax=docker/dockerfile:1
-# https://docs.docker.com/language/java/build-images/
+# 使用官方的 Eclipse Temurin 作为基础镜像
 FROM eclipse-temurin:11-jdk-jammy
 
-MAINTAINER <mobaijun8@163.com>mobaijun
+# 设置维护者信息
+LABEL maintainer="mobaijun <mobaijun8@163.com>"
 
-VOLUME /usr/local/codegen
+# 设置工作目录
+WORKDIR /usr/local/codegen
 
-ADD ballcat-codegen.jar ballcat-codegen.jar
+# 复制 jar 文件到工作目录
+COPY april-codegen.jar .
 
-ENTRYPOINT ["java","-Xms256m","-Xmx512m","-XX:PermSize=128M","-XX:MaxPermSize=256M","-jar","ballcat-codegen.jar"]
+# 设置 JVM 参数并指定要执行的 jar 文件
+ENTRYPOINT ["java", "-Xms256m", "-Xmx512m", "-XX:+UseContainerSupport", "-jar", "april-codegen.jar"]

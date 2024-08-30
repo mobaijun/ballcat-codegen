@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://${DB_HOST:ballcat-mysql}:${DB_PORT:3306}/${DB_NAME:ballcat_codegen}?rewriteBatchedStatements=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&createDatabaseIfNotExist=true
+    url: jdbc:mysql://${DB_HOST:127.0.0.1}:${DB_PORT:3306}/${DB_NAME:april-codegen}?rewriteBatchedStatements=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&createDatabaseIfNotExist=true
     username: ${DB_USER:root}
-    password: ${DB_PASSWORD:123456}
+    password: ${DB_PASSWORD:root}
 
 # 生产环境时不应在配置文件中配置
 # 请启动项目时使用 --jasypt.encryptor.password=xxxx 进行传参

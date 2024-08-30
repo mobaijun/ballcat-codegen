@@ -2,21 +2,20 @@
   <div>
     <a-result v-show="!generatorConfigStore.isUseTable" title="当前模板组不依赖数据源即可生成代码">
       <template #icon>
-        <SmileTwoTone />
+        <SmileTwoTone/>
       </template>
     </a-result>
 
     <a-row
-      v-show="generatorConfigStore.isUseTable"
-      type="flex"
-      style="min-height: calc(100vh - 600px); align-items: stretch"
-    >
+        v-show="generatorConfigStore.isUseTable"
+        type="flex"
+        style="min-height: calc(100vh - 600px); align-items: stretch">
       <a-col :flex="5">
         <div class="database-title">
           <a-row type="flex">
             <a-col :flex="9">数据源</a-col>
             <a-col :flex="1">
-              <ReloadOutlined :spin="datasourceLoading" @click="loadDataSources" />
+              <ReloadOutlined :spin="datasourceLoading" @click="loadDataSources"/>
             </a-col>
           </a-row>
         </div>
@@ -30,7 +29,7 @@
           </template>
           <template v-else>
             <a-empty :image="false" :description="false" style="padding-top: 50px">
-              <a-button @click="openDatasourcePage"> 新建数据源 </a-button>
+              <a-button @click="openDatasourcePage"> 新建数据源</a-button>
             </a-empty>
           </template>
         </div>
@@ -38,19 +37,19 @@
       <a-col :flex="20">
         <div ref="tableColRef" style="padding: 0 24px">
           <a-table
-            row-key="tableName"
-            size="middle"
-            :columns="columns"
-            :data-source="dataSource"
-            :pagination="pagination"
-            :loading="loading"
-            :row-selection="{
+              row-key="tableName"
+              size="middle"
+              :columns="columns"
+              :data-source="dataSource"
+              :pagination="pagination"
+              :loading="loading"
+              :row-selection="{
               selectedRowKeys: tableState.selectedRowKeys,
               onChange: tableState.onSelectChange
             }"
-            table-layout="fixed"
-            :scroll="{ x: 620 }"
-            @change="tableState.handleTableChange"
+              table-layout="fixed"
+              :scroll="{ x: 620 }"
+              @change="tableState.handleTableChange"
           >
             <template #headerCell="{ column }">
               <template v-if="column.key === 'tableName'">
@@ -58,7 +57,7 @@
               </template>
             </template>
             <template
-              #customFilterDropdown="{
+                #customFilterDropdown="{
                 setSelectedKeys,
                 selectedKeys,
                 confirm,
@@ -68,20 +67,22 @@
             >
               <div style="padding: 8px">
                 <a-input
-                  ref="searchInput"
-                  :placeholder="`Search ${column.dataIndex}`"
-                  :value="selectedKeys[0]"
-                  style="width: 188px; margin-bottom: 8px; display: block"
-                  @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
-                  @pressEnter="handleSearch(selectedKeys, confirm, column.dataIndex)"
+                    ref="searchInput"
+                    :placeholder="`Search ${column.dataIndex}`"
+                    :value="selectedKeys[0]"
+                    style="width: 188px; margin-bottom: 8px; display: block"
+                    @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
+                    @pressEnter="handleSearch(selectedKeys, confirm, column.dataIndex)"
                 />
                 <a-button
-                  type="primary"
-                  size="small"
-                  style="width: 90px; margin-right: 8px"
-                  @click="handleSearch(selectedKeys, confirm, column.dataIndex)"
+                    type="primary"
+                    size="small"
+                    style="width: 90px; margin-right: 8px"
+                    @click="handleSearch(selectedKeys, confirm, column.dataIndex)"
                 >
-                  <template #icon><SearchOutlined /></template>
+                  <template #icon>
+                    <SearchOutlined/>
+                  </template>
                   Search
                 </a-button>
                 <a-button size="small" style="width: 90px" @click="handleReset(clearFilters)">
@@ -90,7 +91,7 @@
               </div>
             </template>
             <template #customFilterIcon="{ filtered }">
-              <search-outlined :style="{ color: filtered ? '#108ee9' : undefined }" />
+              <search-outlined :style="{ color: filtered ? '#108ee9' : undefined }"/>
             </template>
           </a-table>
         </div>
@@ -100,20 +101,20 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref, watch } from 'vue'
-import type { CSSProperties } from 'vue'
-import { queryTableInfoPage } from '@/api/gen/generate'
-import { listDatasourceConfigSelectData } from '@/api/gen/datasource-config'
-import type { ColumnProps } from 'ant-design-vue/es/table'
-import type { TableInfo } from '@/api/gen/generate/types'
-import type { TableInfoPageParam } from '@/api/gen/generate/types'
+import {onMounted, reactive, ref, watch} from 'vue'
+import type {CSSProperties} from 'vue'
+import {queryTableInfoPage} from '@/api/gen/generate'
+import {listDatasourceConfigSelectData} from '@/api/gen/datasource-config'
+import type {ColumnProps} from 'ant-design-vue/es/table'
+import type {TableInfo} from '@/api/gen/generate/types'
+import type {TableInfoPageParam} from '@/api/gen/generate/types'
 import useTable from '@/hooks/table'
-import { doRequest } from '@/utils/axios/request'
-import type { SelectData } from '@/api/types'
-import { SearchOutlined, SmileTwoTone, ReloadOutlined } from '@ant-design/icons-vue'
-import type { GenerateStepInstance } from './types'
-import { useGeneratorConfigStore } from '@/store'
-import { useRouter } from 'vue-router'
+import {doRequest} from '@/utils/axios/request'
+import type {SelectData} from '@/api/types'
+import {SearchOutlined, SmileTwoTone, ReloadOutlined} from '@ant-design/icons-vue'
+import type {GenerateStepInstance} from './types'
+import {useGeneratorConfigStore} from '@/store'
+import {useRouter} from 'vue-router'
 
 const generatorConfigStore = useGeneratorConfigStore()
 
@@ -161,12 +162,12 @@ const selectedDsNames = ref<string[]>([''])
 const dsName = ref<string>('')
 
 watch(
-  () => selectedDsNames,
-  () => {
-    dsName.value = selectedDsNames.value[0]
-    tableState.loadData()
-  },
-  { deep: true }
+    () => selectedDsNames,
+    () => {
+      dsName.value = selectedDsNames.value[0]
+      tableState.loadData()
+    },
+    {deep: true}
 )
 
 const tableState = useTable<TableInfo>({
@@ -174,7 +175,7 @@ const tableState = useTable<TableInfo>({
     return queryTableInfoPage(dsName.value, pageParams)
   }
 })
-const { dataSource, pagination, loading } = tableState
+const {dataSource, pagination, loading} = tableState
 
 const dataSourceSelectData = ref<SelectData[]>([])
 
@@ -185,14 +186,14 @@ const handleSearch = (selectedKeys, confirm, dataIndex) => {
 
 // @ts-ignore
 const handleReset = clearFilters => {
-  clearFilters({ confirm: true })
+  clearFilters({confirm: true})
 }
 
 const router = useRouter()
 
 /* 打开数据源管理页 */
 function openDatasourcePage() {
-  const { href } = router.resolve('/datasource')
+  const {href} = router.resolve('/datasource')
   window.open(href, '_blank')
 }
 
@@ -223,7 +224,7 @@ defineExpose<GenerateStepInstance>({
     if (tableState.selectedRowKeys.value && tableState.selectedRowKeys.value.length > 0) {
       return Promise.resolve()
     }
-    return Promise.reject({ message: '请至少选择一张数据表' })
+    return Promise.reject({message: '请至少选择一张数据表'})
   },
   next: () => {
     generatorConfigStore.dsName = dsName.value

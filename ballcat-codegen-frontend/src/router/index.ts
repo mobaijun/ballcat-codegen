@@ -28,6 +28,12 @@ const menuRouters: Array<BallcatRouteRecordRaw> = [
     component: () => import('@/views/gen/datasource-config/index.vue')
   },
   {
+    path: '/tools',
+    name: 'tools',
+    component: () => import('@/views/gen/tools/index.vue'),
+    meta: { title: "开发工具" }
+  },
+  {
     path: '404',
     name: 'notFound',
     component: () => import('../views/404.vue'),
