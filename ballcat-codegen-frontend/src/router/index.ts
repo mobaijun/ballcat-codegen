@@ -34,6 +34,12 @@ const menuRouters: Array<BallcatRouteRecordRaw> = [
     meta: { title: "开发工具" }
   },
   {
+    path: '/linux',
+    name: 'linux',
+    component: () => import('@/views/gen/linux/index.vue'),
+    meta: { title: "Linux工具" }
+  },
+  {
     path: '404',
     name: 'notFound',
     component: () => import('../views/404.vue'),
