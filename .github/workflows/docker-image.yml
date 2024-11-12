@@ -40,6 +40,8 @@ jobs:
         run: docker build . --file ./ballcat-codegen-backend/src/main/resources/docker/Dockerfile --tag ${{env.IMAGE_NAME}}
       - name: 输出分支名称
         run: echo $GITHUB_REF_NAME
+      - name: 检查生成的 JAR 文件
+        run: ls -l ./ballcat-codegen-backend/target/
 
       # 登录到 Docker 注册表
       - name: 登录到注册表 ${{ env.REGISTRY }}
