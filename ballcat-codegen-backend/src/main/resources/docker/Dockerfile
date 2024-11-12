@@ -8,7 +8,7 @@ LABEL maintainer="mobaijun8@163.com"
 WORKDIR /app
 
 # 复制应用程序的 JAR 文件到工作目录，并将名称更改为 april-codegen.jar
-COPY ./ballcat-codegen-backend/target/*.jar ./april-codegen.jar
+COPY ./ballcat-codegen-backend/target/ballcat-codegen.jar ./april-codegen.jar
 
 # 暴露应用程序运行的端口
 EXPOSE 8889
