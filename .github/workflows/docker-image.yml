@@ -12,7 +12,6 @@ on:
 env:
   # 默认为 Docker Hub，如为空则使用 docker.io
   REGISTRY: ''
-  USERNAME: 'mobaijun'
   # 自定义镜像名称
   IMAGE_NAME: 'generator'
   # 组合用户名和镜像名称作为完整的镜像名称
