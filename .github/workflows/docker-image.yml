@@ -22,7 +22,7 @@ jobs:
       # 默认为 Docker Hub，如果使用其他 Docker 注册表，可以修改
       REGISTRY: 'docker.io'
       # 使用 GitHub 仓库名作为镜像名称，格式为 <账户>/<仓库>
-      IMAGE_NAME: ${{ github.repository }}
+      IMAGE_NAME: ${{ github.generator }}
 
     steps:
       # 检出代码
