@@ -1,0 +1,71 @@
+# 此工作流将使用 Maven 构建 Java 项目，并缓存/恢复任何依赖项，以提高工作流执行效率
+# 详细信息请参考：https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# 本工作流使用的操作非 GitHub 认证。
+# 这些由第三方提供，遵循单独的服务条款、隐私政策和支持文档。
+
+name: CI
+
+on:
+  push:
+    branches:
+      - "master"
+    tags:
+      - 'v*'
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  # 默认为 Docker Hub，如为空则使用 docker.io
+  REGISTRY: ''
+  # 使用 github.repository 格式 <账户>/<仓库>
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: 设置 JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: maven
+      - name: 使用 Maven 构建
+        run: mvn -B clean package --file pom.xml
+      - name: 构建 Docker 镜像
+        run: docker build . --file ./ballcat-codegen-backend/src/main/resources/docker/Dockerfile --tag ${{env.IMAGE_NAME}}
+      - name: 输出分支名称
+        run: echo $GITHUB_REF_NAME
+
+      # 登录到 Docker 注册表
+      - name: 登录到注册表 ${{ env.REGISTRY }}
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      # 提取 Docker 的元数据（标签、标签）
+      # 参考 https://github.com/docker/metadata-action
+      - name: 提取 Docker 元数据
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.IMAGE_NAME }}
+          tags: |
+            # 为默认分支设置最新标签
+            type=raw,value=latest,enable={{is_default_branch}}
+            # 标签事件
+            type=ref,enable=true,priority=600,prefix=,suffix=,event=tag
+      # 推送镜像
+      - name: 构建并推送 Docker 镜像
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
