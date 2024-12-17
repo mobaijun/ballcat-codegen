@@ -86,14 +86,14 @@
 	-->
 	<!-- 本地和开发环境:打印控制台-->
 	<springProfile name="dev | local">
-		<root level="DEBUG">
+		<root level="ERROR">
 			<appender-ref ref="CONSOLE"/>
 		</root>
 	</springProfile>
 
 	<!-- 测试或生产:输出到文档 -->
 	<springProfile name="!(dev | local)">
-		<root level="INFO">
+		<root level="ERROR">
 			<appender-ref ref="FILE"/>
 			<appender-ref ref="ERROR_FILE"/>
 		</root>
